@@ -1,6 +1,7 @@
 from tkinter import messagebox
 import sqlite3
 
+#Realiza la conexión a la base de datos y crea la billetera CuentaPrincipal
 def conexionBBDD():
     conexionBaseDatos=sqlite3.connect("Bolsillos")
     puntero=conexionBaseDatos.cursor()
@@ -24,7 +25,8 @@ def conexionBBDD():
         
     except:
         messagebox.showwarning("Base de datos","La base de datos que se quiere crear ya existe")
-   
+
+#Actualiza la información de acuerdo a los campos saldo actual, consignaciones y retiros 
 def actualizar(comboNombreBilleteras,saldoFinal, consignacion, retiro):
     conexionBaseDatos=sqlite3.connect("Bolsillos")
     puntero=conexionBaseDatos.cursor()    
@@ -35,7 +37,7 @@ def actualizar(comboNombreBilleteras,saldoFinal, consignacion, retiro):
     conexionBaseDatos.commit()
     messagebox.showinfo("Base de datos","Registro actualizado con éxito")
     
-
+#Elimina la billetera seleccionada del primer combo box
 def eliminar(comboNombreBilleteras):
     conexionBaseDatos=sqlite3.connect("Bolsillos")
     puntero=conexionBaseDatos.cursor()    
@@ -44,6 +46,7 @@ def eliminar(comboNombreBilleteras):
     
     messagebox.showinfo("Base de datos","Registro eliminado con éxito")    
 
+#lee la información de saldo actual que se encuentre en la billetera seleccionada en el primer combo box
 def leer(comboNombreBilleteras, saldoActual):
     conexionBaseDatos=sqlite3.connect("Bolsillos")
     puntero=conexionBaseDatos.cursor()
@@ -54,35 +57,36 @@ def leer(comboNombreBilleteras, saldoActual):
         saldoActual.set(i[2])
     conexionBaseDatos.commit()
 
-    
-def crear(a,b,c,d):#a=nombreBilletra, b = saldoActual, c = consignar, d = retirarTransferir
+#Crea una nueva billetera solo usando el nombre o usando el nombre y un valor a consignar    
+def crear(nombreBilletra, saldoActual, consignar, retirarTransferir):
     conexionBaseDatos=sqlite3.connect("Bolsillos")
     puntero=conexionBaseDatos.cursor()
     
-    if verificarRegistro(a.get())==True: 
+    if verificarRegistro(nombreBilletra.get())==True: 
         messagebox.showwarning("Registro","Se ha encontrado una billetera virtual con el mismo nombre." + 
                                "\n \nPor favor intente realizar un registro nuevo o solicitar información de las billeteras actuales")
     else:
-        datos=a.get(), b.get(), c.get(), d.get()
+        datos=nombreBilletra.get(), saldoActual.get(), consignar.get(), retirarTransferir.get()
         
-        if a.get()=="":#si no hay nombre de billetera no crea el registro
+        if nombreBilletra.get()=="":
             messagebox.showinfo("Crear","No se puede crear el bolsillo sin un nombre")
             
-        elif a.get()!="" and (b.get()=="" and c.get()=="" and d.get()==""):  #INSERTA EL REGISTRO CON SOLO EL NOMBRE
-            datos = a.get(), 0, 0, 0    
+        elif nombreBilletra.get()!="" and (saldoActual.get()=="" and consignar.get()=="" and retirarTransferir.get()==""):
+            datos = nombreBilletra.get(), 0, 0, 0    
             puntero.execute("INSERT INTO BOLSILLOS_AHORROS VALUES(NULL,?,?,?,?)",(datos))    
             conexionBaseDatos.commit()
             messagebox.showinfo("Crear","Registro insertado con éxito")
             
-        elif a.get()!="" and c.get()!="" and d.get()=="": #insertar registro con consignacion
-            datos = a.get(), c.get(), c.get(), 0
+        elif nombreBilletra.get()!="" and consignar.get()!="" and retirarTransferir.get()=="":
+            datos = nombreBilletra.get(), consignar.get(), consignar.get(), 0
             puntero.execute("INSERT INTO BOLSILLOS_AHORROS VALUES(NULL,?,?,?,?)",(datos))    
             conexionBaseDatos.commit()
             messagebox.showinfo("Crear","Registro insertado con éxito")
         else:
             messagebox.showwarning("Crear","No se pudo realizar el registro. Intente crear la billetera sólo con el nombre o el nombre y un valor a consignarle")
 
-def verificarRegistro(nombreBilletera): #verifica si la billetera ya existe en la BD
+#verifica si la billetera ya existe en la BD
+def verificarRegistro(nombreBilletera):
     conexionBaseDatos=sqlite3.connect("Bolsillos")
     puntero=conexionBaseDatos.cursor()
     puntero.execute("SELECT * FROM BOLSILLOS_AHORROS WHERE NOMBRE_BILLETERA ='{}'".format(nombreBilletera))
@@ -91,6 +95,3 @@ def verificarRegistro(nombreBilletera): #verifica si la billetera ya existe en l
         return True
     else:
         return False
-
-        
-    

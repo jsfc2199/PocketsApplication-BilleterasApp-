@@ -4,32 +4,37 @@ from tkinter import ttk
 import sqlite3
 import CRUD
 
-
+#Sale de la aplicación
 def salirApp(root):
     salida = messagebox.askokcancel("Salir","¿Deseas salir de la aplicación?")
     if salida == True:
        root.destroy()
-       
+
+#Muestra la versión de la aplicación
 def version():
     messagebox.showinfo("Version", "Programa de ahorros en bolsillos Ver. 1.0")
 
+#Muestra información muy general de la aplicación
 def acerdaDe():
     messagebox.showinfo("Acerda de", 
                         "Programa de bolsillos virtuales los cuales guardarán la información en una base de datos.\n \n" + 
                         "Podrá transferir dinero desde la cuenta principal a los bolsillos, retirar y consignar dinero a la cuenta "+
                         "principal y a las billeteras calculando previamente el monto que tendrá" + 
                         ", así como descargar todo el dinero de los mismos. También se podrán realizar las operaciones de un CRUD")
-    
+
+#Muestra un mensaje que recomienda leer el readme o el archivo HowItWorks
 def comoFunciona():
     messagebox.showinfo("¿Cómo Funciona?","Leer 'readme' o el archivo txt 'HowItWorks'")
-    
+
+#Limpia los campos de escritura y lectura    
 def limpiarCampos(nombreBilletera,saldoActual,consignarTransferir,retirar,saldoFinal):
     nombreBilletera.set("")
     saldoActual.set("")
     consignarTransferir.set("")
     retirar.set("")
     saldoFinal.set("")
-    
+
+#Define los valores que tendrá el combo box
 def comboBoxBilleteras():
     try:
         conexionBaseDatos=sqlite3.connect("Bolsillos")
@@ -40,7 +45,7 @@ def comboBoxBilleteras():
     except:
         return False
 
-
+#Refresca los valores que hay en ambos combo box
 def refrescar(comboBilleteras, comboBilleterasTransferir):
     try:
         conexionBaseDatos=sqlite3.connect("Bolsillos")
@@ -53,13 +58,15 @@ def refrescar(comboBilleteras, comboBilleterasTransferir):
     except:
         return False
     
-    
+#Solo permite escribir numeros en los campos numeros 
 def soloNumeros(texto):
     return texto.isdigit()
 
+#Solo permite escribir letras sin espacios en los campos de escritura
 def textoSinEspacios(texto):
     return texto.isalpha()
 
+#Calcula el saldo final que tendrá la billetera inicial seleccionada en función del saldo actual, consignación y retiro
 def calcular(comboNombreBilleteras, saldoActual, saldoFinal, valorConsignacion, valorRetiro):
     conexionBaseDatos=sqlite3.connect("Bolsillos")
     puntero=conexionBaseDatos.cursor()
@@ -84,7 +91,7 @@ def calcular(comboNombreBilleteras, saldoActual, saldoFinal, valorConsignacion, 
     else:    
         messagebox.showerror("Error","No se pudo realizar el cálculo del saldo final.")
 
-
+#Descarga la billetera seleccionada en el segundo combo box moviendo ese dinero a la billetera en el combo box 1
 def descargar(comboNombreBilleteras, comboNombreBilleteraDescargar, saldoFinal):
     conexionBaseDatos=sqlite3.connect("Bolsillos")
     puntero=conexionBaseDatos.cursor()
@@ -115,6 +122,7 @@ def descargar(comboNombreBilleteras, comboNombreBilleteraDescargar, saldoFinal):
     except:
         False
 
+#Permite transferir dinero entre las diferentes billeteras y hace el calculo respectivo con el que contará cada una de las mismas
 def transferir(comboNombreBilleteras, comboNombreBilleteraTransferir, transferir, consignar, saldoFinal, saldoActual):
     conexionBaseDatos=sqlite3.connect("Bolsillos")
     puntero=conexionBaseDatos.cursor()
@@ -147,14 +155,3 @@ def transferir(comboNombreBilleteras, comboNombreBilleteraTransferir, transferir
             
     except:
         False
-        
-    pass
-
-
-
-    
-
-    
-    
-
-        
