@@ -1,0 +1,42 @@
+Pockets application (Database)
+Pockets that will allow the management of savings for different objectives.
+
+Tools needed 
+Python3 must be installed
+
+How to run the program
+To run the main program you must execute the following command in the CMD inside the folder: python BolsillosVirtuales.py
+
+General
+Note: The "HowItWorks.txt" file has the same information as the readme but in english.
+
+In the menu bar you will find the file fields, clear fields, CRUD, and help.
+
+File: It will have two tabs, "Connect to database" and "Exit". The first one will make the connection to the database. It is recommended, when using the application for the first time, to use this function, then you will not have to make the connection again. The Exit tab, as its name indicates, will exit the application.
+
+Clear Fields: Will clear the content written in the New Wallet Name, Current Balance, Value to Deposit, Value to Withdraw/Transfer and Final Balance fields.
+
+CRUD: It will have the tabs "Create", "Read", "Update" and "Delete" that will have the same functions of the buttons at the end of the application. (This is explained later on).
+
+Help: Contains the "How does it work?", "Version", and "About..." tabs. The "How does it work?" tab will only prompt to read the "HowItWorks" readme or txt file. "Version" will only show the version, this being 1.0, and "About..." mentions the more general features of the application.
+
+
+Interface and How does it work?
+Two combo boxes are presented in which you will see the wallets whether you have them before or you create new ones, the latter from the Create button.
+
+When pressing Create there will be two ways to do it, with only the name of the wallet or the name together with a value to be entered, otherwise it will not be possible to create it. After that you can use the "Refresh" button, which will update the information in the combo box.
+
+The "Read" button will allow you to read only the current balance of the wallet in the "Wallets" section, which can be used for the following purposes:
+	- Using the "Calculate" button, which in turn will calculate the final balance intended to be in the wallet after depositing and/or withdrawing money to it.
+	- After using the previous button, you can use the "Update" button, in case you want to update the current balance to the final balance after the operation. The records will be saved in the database, if you only deposited, if you only withdrew, or did both, it will be recorded in the database along with the new current balance.
+
+The "Delete" button will delete the wallet in the "Wallets" field and again the "Refresh" button must be used to update the combo boxes.
+
+Then, the "Download" button will allow withdrawing money from the wallet selected in the "Wallet to download/transfer" combo box, but it will only allow this action if the wallet selected in the "Wallets" combo box is the one named "MainAccount", that is why the "MainAccount" wallet is automatically created when connecting to the database for the first time.
+So, to use this button you must have "MainAccount" selected. The total of the wallet selected in the "Wallet to download/transfer" combo box will always be downloaded. It is worth mentioning that when you press "Download" a messagebox will appear indicating if you want to perform the operation, if you accept, "CuentaPrincipal" will have the money it had plus the amount downloaded from the second wallet. Therefore the second wallet will be left with a value of 0.
+
+Finally, the "Transfer" button will allow you to transfer money between the different wallets, this can be done between all wallets, i.e. any combination of wallets.
+When you press this button, the "Value to deposit" field will show the value of the wallet in the "Wallets" section, while the "Final balance" field will show the value of the wallet in the "Wallet to download/transfer" section. Again, you are asked if you want to perform this operation and if you do, everything will be updated in the database.
+
+
+Translated with www.DeepL.com/Translator (free version)
